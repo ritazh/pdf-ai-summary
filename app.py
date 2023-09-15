@@ -130,33 +130,41 @@ if with_clear_container(submit_clicked):
 
             # prompts:
 
-            prompt_template = """Create 3 bulletpoints as headlines for the following:
-            "{text}"
-            HEADLINES:"""
-            answer = answer_question(prompt_template, callbacks=[]) #st_callback, capturing_callback
-            answer_container.write("HEADLINES: \n" + answer)
-
-            prompt_template = """Identify three target audiences in Brazil for the following:
-            "{text}"
-            TARGET AUDIENCE:"""
-            answer = answer_question(prompt_template, callbacks=[]) #st_callback, capturing_callback
-            answer_container.write("AUDIENCE: \n" + answer)
-
-            prompt_template = """You must extract the following information from the scientific journal article here {text}.  
-
-            Write a 5-7 paragraph news article for a high school student.  
-
+            # HEADLINES
+            prompt_template = """In the same language as the original document, create 3 bulletpoints as headlines for the following article:"{text}".""" # Label this "Headlines:".
+            answer = answer_question(prompt_template, callbacks=[])
+            answer_container.write("Headlines: \n\n" + answer)
+            # AUDIENCE
+            prompt_template = """In the same language as the original document, identify three target audiences in Brazil for the following article:"{text}". """
+            answer = answer_question(prompt_template, callbacks=[])
+            answer_container.write("Target audiences: \n\n" + answer)
+            # SUMMARY
+            prompt_template = """You must extract the following information from the scientific journal article here {text}. 
+            In the same language as the original document, write a 5-7 paragraph news article for a high school student.  
             The first paragraph should describe the results of the scientific journal article.
-
             The middle paragraphs should go into detail about the scientific journal article.
-
             Be sure to mention the name of the institution where the research was conducted.
-
             The last paragraph should describe future work and explain why the research is important.
-            CONCISE SUMMARY:"""
-            answer = answer_question(prompt_template, callbacks=[]) #st_callback, capturing_callback
-            answer_container.write("SUMMARY: \n" + answer)
-
+            Label this "Summary:"."""
+            answer = answer_question(prompt_template, callbacks=[])
+            answer_container.write(answer)
+            # POLICY MAKER SUMMARY
+            prompt_template = """You must extract the following information from the scientific journal article here {text}.  
+            In the same language as the original document, write a 1 paragraph summary of the scientific journal article for a policy maker. Label this "Policy Maker Summary:"."""
+            answer = answer_question(prompt_template, callbacks=[])
+            answer_container.write(answer)
+            # NEWS
+            prompt_template = """For this scientific journal article {text}, give a measurement from 0 to 5 to indicate the likelihood of this article in being on the news. Explain your reasoning in 4-7 sentences. Label this "Likelihood of being in the news:"."""
+            answer = answer_question(prompt_template, callbacks=[])
+            answer_container.write(answer)
+            # NEW INFORMATION
+            prompt_template = """For this scientific journal article {text}, give a measurement from 0 to 5 to indicate if the journal article shares new information. Explain your reasoning in 4-7 sentences. Label this "Does the article share new information:"."""
+            answer = answer_question(prompt_template, callbacks=[])
+            answer_container.write(answer)
+            # IMPACT
+            prompt_template = """For this scientific journal article {text}, give a measurement from 0 to 5 to indicate if the results of the research described in journal article will have a significant impact on people's lives. Explain your reasoning in 4-7 sentences. Label this "Impact on people's lives:"."""
+            answer = answer_question(prompt_template, callbacks=[])
+            answer_container.write(answer)
             
         except OutputParserException as e:
             answer = e.args[0]
